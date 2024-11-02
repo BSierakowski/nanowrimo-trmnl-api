@@ -76,12 +76,12 @@ class ApiController < ApplicationController
     return_attributes = {
       starts_at: project_attributes["starts-at"],
       ends_at: project_attributes["ends-at"],
-      goal: project_attributes["goal"],
+      goal: number_with_delimiter(project_attributes["goal"]),
       current_count: project_attributes["current-count"],
       streak: project_attributes["streak"],
-      days_remaining: days_remaining,
-      words_remaining: words_remaining,
-      words_per_day: words_per_day
+      days_remaining: number_with_delimiter(days_remaining),
+      words_remaining: number_with_delimiter(words_remaining),
+      words_per_day: number_with_delimiter(words_per_day)
     }
 
 
