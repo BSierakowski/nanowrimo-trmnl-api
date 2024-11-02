@@ -17,7 +17,8 @@ class ApiController < ApplicationController
       return
     end
 
-    auth_token = auth_response.headers['Authorization']
+    parsed_body = JSON.parse(auth_response.body)
+    auth_token = parsed_body["auth_token"]
 
     # Step 2: Fetch Project Attributes
     projects_response = HTTParty.get(
