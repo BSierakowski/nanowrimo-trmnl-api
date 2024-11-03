@@ -77,7 +77,7 @@ class ApiController < ApplicationController
       starts_at: project_attributes["starts-at"],
       ends_at: project_attributes["ends-at"],
       goal: ActiveSupport::NumberHelper.number_to_delimited(project_attributes["goal"]),
-      current_count: project_attributes["current-count"],
+      current_count: ActiveSupport::NumberHelper.number_to_delimited(project_attributes["current-count"]),
       streak: project_attributes["streak"],
       days_remaining: ActiveSupport::NumberHelper.number_to_delimited(days_remaining),
       words_remaining: ActiveSupport::NumberHelper.number_to_delimited(words_remaining),
