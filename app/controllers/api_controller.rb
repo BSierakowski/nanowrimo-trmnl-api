@@ -7,6 +7,7 @@ class ApiController < ApplicationController
     password = ENV['PASSWORD']
 
     # Fetch the IDs from URL parameters
+    # Confusingly, the project ID is used to fetch the project challenges, and the project challenge ID is used to fetch the daily aggregates.
     project_id = params[:project_id]
     project_challenge_id = params[:project_challenge_id]
 
@@ -33,14 +34,14 @@ class ApiController < ApplicationController
     end
 
     # Step 2: Fetch Project Attributes
-    projects_url = "https://api.nanowrimo.org/projects/#{project_id}/project-challenges"
-    projects_response = HTTParty.get(
-      projects_url,
+    project_challenges_url = "https://api.nanowrimo.org/projects/#{project_id}/project-challenges"
+    project_challenges_response = HTTParty.get(
+      project_challenges_url,
       headers: { 'Authorization' => auth_token }
     )
 
-    if projects_response.code != 200
-      Rails.logger.error "Failed to fetch projects: #{projects_response.body}"
+    if project_challenges_response.code != 200
+      Rails.logger.error "Failed to fetch projects: #{project_challenges_response.body}"
       render json: { error: 'Failed to fetch projects' }, status: :bad_request
       return
     end
@@ -58,11 +59,7 @@ class ApiController < ApplicationController
       return
     end
 
-    # Log the attributes to the server log
-    Rails.logger.info "Projects Attributes: #{projects_response.body}"
-    Rails.logger.info "Daily Attributes: #{daily_response.body}"
-
-    parsed_projects_data = JSON.parse(projects_response.body)
+    parsed_projects_data = JSON.parse(project_challenges_response.body)
     parsed_daily_data = JSON.parse(daily_response.body)
 
     project_attributes = parsed_projects_data["data"].first["attributes"]
