@@ -66,7 +66,7 @@ class ApiController < ApplicationController
     parsed_daily_data = JSON.parse(daily_response.body)
 
     project_attributes = parsed_projects_data["data"].first["attributes"]
-    daily_attributes = parsed_daily_data["data"].first["attributes"]
+    daily_attributes = parsed_daily_data["data"]
 
     days_remaining = (Date.parse(project_attributes["ends-at"]) - Date.today).to_i
     words_remaining = project_attributes["goal"] - project_attributes["current-count"]
